@@ -1,590 +1,428 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>CTMP Death Clock</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <style>
-    body {
-        font-family: 'Courier New', monospace;
-        background: #000000;
-        color: #ff0000;
-        overflow-x: hidden;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CTMP | Cost of Waiting Counter</title>
+  <style>
+    :root{
+      --bg:#000;
+      --panel:#0a0a0a;
+      --panel2:#1a0000;
+      --red:#ff0000;
+      --white:#ffffff;
+      --muted:#888888;
+      --border:#ff0000;
     }
 
-    .container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 40px 20px;
+    body{
+      font-family:"Courier New", monospace;
+      background:var(--bg);
+      color:var(--red);
+      overflow-x:hidden;
+      margin:0;
+      padding:0;
+    }
+
+    .container{
+      max-width:1400px;
+      margin:0 auto;
+      padding:40px 20px;
     }
 
     /* Header */
-    .header {
-        text-align: center;
-        margin-bottom: 60px;
-        border-bottom: 2px solid #ff0000;
-        padding-bottom: 30px;
+    .header{
+      text-align:center;
+      margin-bottom:50px;
+      border-bottom:2px solid var(--border);
+      padding-bottom:30px;
+    }
+    .header h1{
+      font-size:42px;
+      margin:0 0 14px 0;
+      letter-spacing:2px;
+      text-shadow:0 0 10px rgba(255,0,0,0.7);
+      color:var(--red);
+    }
+    .header .subtitle{
+      font-size:18px;
+      color:var(--white);
+      margin-bottom:6px;
+    }
+    .header .tagline{
+      font-size:14px;
+      color:var(--muted);
+      line-height:1.5;
+      max-width:980px;
+      margin:0 auto;
     }
 
-    .header h1 {
-        font-size: 48px;
-        margin-bottom: 20px;
-        letter-spacing: 3px;
-        text-shadow: 0 0 10px #ff0000;
+    /* Main Counter Section */
+    .counter-section{
+      background:var(--panel);
+      border:3px solid var(--border);
+      border-radius:10px;
+      padding:34px;
+      margin-bottom:26px;
+      box-shadow:0 0 20px rgba(255,0,0,0.25);
+    }
+    .clock-title{
+      font-size:22px;
+      text-align:center;
+      margin-bottom:6px;
+      color:var(--white);
+      letter-spacing:1px;
+    }
+    .clock-subtitle{
+      font-size:14px;
+      text-align:center;
+      margin-bottom:22px;
+      color:var(--muted);
+      line-height:1.5;
     }
 
-    .header .subtitle {
-        font-size: 24px;
-        color: #ffffff;
-        margin-bottom: 10px;
+    .main-counter{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:16px;
+      flex-wrap:wrap;
+      margin-bottom:26px;
+    }
+    .counter-box{
+      background:var(--panel2);
+      border:2px solid var(--border);
+      border-radius:8px;
+      padding:24px 30px;
+      text-align:center;
+      min-width:240px;
+    }
+    .counter-value{
+      font-size:56px;
+      font-weight:bold;
+      color:var(--red);
+      text-shadow:0 0 14px rgba(255,0,0,0.85);
+      animation:pulse 2s infinite;
+    }
+    .counter-label{
+      font-size:14px;
+      color:var(--white);
+      margin-top:8px;
+      letter-spacing:1px;
+    }
+    @keyframes pulse{
+      0%,100%{opacity:1}
+      50%{opacity:0.75}
     }
 
-    .header .tagline {
-        font-size: 18px;
-        color: #888888;
+    .global-stats{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:14px;
+      margin-top:14px;
+    }
+    .global-stat-box{
+      background:var(--panel2);
+      border:2px solid var(--border);
+      border-radius:8px;
+      padding:18px;
+      text-align:center;
+    }
+    .global-stat-number{
+      font-size:38px;
+      color:var(--red);
+      font-weight:bold;
+      margin-bottom:8px;
+      text-shadow:0 0 10px rgba(255,0,0,0.6);
+    }
+    .global-stat-label{
+      font-size:13px;
+      color:var(--white);
     }
 
-    /* Main Clock Section */
-    .death-clock-section {
-        background: #0a0a0a;
-        border: 3px solid #ff0000;
-        border-radius: 10px;
-        padding: 40px;
-        margin-bottom: 40px;
-        box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+    /* Info blocks */
+    .info-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+      gap:16px;
+      margin-bottom:26px;
+    }
+    .card{
+      background:var(--panel);
+      border:2px solid var(--border);
+      border-radius:8px;
+      padding:22px;
+    }
+    .card h3{
+      font-size:18px;
+      color:var(--white);
+      margin:0 0 12px 0;
+      border-bottom:1px solid var(--border);
+      padding-bottom:10px;
+      letter-spacing:1px;
+    }
+    .card p{
+      margin:10px 0;
+      color:var(--muted);
+      line-height:1.6;
+      font-size:14px;
+    }
+    .card .emph{
+      color:var(--red);
+      font-weight:bold;
     }
 
-    .clock-title {
-        font-size: 32px;
-        text-align: center;
-        margin-bottom: 10px;
-        color: #ffffff;
+    /* Settings strip */
+    .settings{
+      background:var(--panel);
+      border:2px solid var(--border);
+      border-radius:8px;
+      padding:16px 18px;
+      margin-bottom:26px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 18px;
+      align-items:center;
+      justify-content:space-between;
     }
-
-    .clock-subtitle {
-        font-size: 18px;
-        text-align: center;
-        margin-bottom: 30px;
-        color: #888888;
+    .settings .left, .settings .right{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 16px;
+      align-items:center;
     }
-
-    .main-counter {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 20px;
-        margin-bottom: 40px;
-        flex-wrap: wrap;
+    .pill{
+      border:1px solid var(--border);
+      background:#060606;
+      border-radius:999px;
+      padding:8px 12px;
+      color:var(--white);
+      font-size:12px;
+      line-height:1;
     }
-
-    .counter-box {
-        background: #1a0000;
-        border: 2px solid #ff0000;
-        border-radius: 8px;
-        padding: 30px 40px;
-        text-align: center;
-        min-width: 200px;
-    }
-
-    .counter-value {
-        font-size: 64px;
-        font-weight: bold;
-        color: #ff0000;
-        text-shadow: 0 0 15px #ff0000;
-        animation: pulse 2s infinite;
-    }
-
-    .counter-label {
-        font-size: 18px;
-        color: #ffffff;
-        margin-top: 10px;
-    }
-
-    @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.7; }
-    }
-
-    /* Live Stats Grid */
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-        margin-bottom: 40px;
-    }
-
-    .stat-card {
-        background: #0a0a0a;
-        border: 2px solid #ff0000;
-        border-radius: 8px;
-        padding: 25px;
-    }
-
-    .stat-card h3 {
-        font-size: 20px;
-        color: #ffffff;
-        margin-bottom: 15px;
-        border-bottom: 1px solid #ff0000;
-        padding-bottom: 10px;
-    }
-
-    .stat-item {
-        display: flex;
-        justify-content: space-between;
-        margin: 15px 0;
-        font-size: 16px;
-    }
-
-    .stat-label {
-        color: #888888;
-    }
-
-    .stat-value {
-        color: #ff0000;
-        font-weight: bold;
-    }
-
-    /* Real-time Log */
-    .log-section {
-        background: #0a0a0a;
-        border: 2px solid #ff0000;
-        border-radius: 8px;
-        padding: 30px;
-        margin-bottom: 40px;
-    }
-
-    .log-section h3 {
-        font-size: 24px;
-        color: #ffffff;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
-    .log-container {
-        background: #000000;
-        border: 1px solid #ff0000;
-        border-radius: 5px;
-        padding: 20px;
-        height: 400px;
-        overflow-y: auto;
-        font-size: 14px;
-    }
-
-    .log-entry {
-        margin: 8px 0;
-        padding: 8px;
-        border-left: 3px solid #ff0000;
-        padding-left: 15px;
-        animation: fadeIn 0.5s;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .log-time {
-        color: #888888;
-        margin-right: 15px;
-    }
-
-    .log-message {
-        color: #ff0000;
-    }
-
-    /* Custom Scrollbar */
-    .log-container::-webkit-scrollbar {
-        width: 10px;
-    }
-
-    .log-container::-webkit-scrollbar-track {
-        background: #0a0a0a;
-    }
-
-    .log-container::-webkit-scrollbar-thumb {
-        background: #ff0000;
-        border-radius: 5px;
-    }
-
-    /* Impact Statement */
-    .impact-section {
-        background: #0a0a0a;
-        border: 3px solid #ff0000;
-        border-radius: 10px;
-        padding: 40px;
-        text-align: center;
-        margin-bottom: 40px;
-    }
-
-    .impact-section h3 {
-        font-size: 28px;
-        color: #ffffff;
-        margin-bottom: 20px;
-    }
-
-    .impact-text {
-        font-size: 20px;
-        color: #ff0000;
-        line-height: 1.6;
-        margin-bottom: 15px;
-    }
-
-    .impact-subtext {
-        font-size: 16px;
-        color: #888888;
-        line-height: 1.6;
-    }
-
-    /* Global Stats */
-    .global-stats {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-        margin-bottom: 40px;
-    }
-
-    .global-stat-box {
-        background: #1a0000;
-        border: 2px solid #ff0000;
-        border-radius: 8px;
-        padding: 25px;
-        text-align: center;
-    }
-
-    .global-stat-number {
-        font-size: 48px;
-        color: #ff0000;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-    .global-stat-label {
-        font-size: 16px;
-        color: #ffffff;
-    }
+    .pill strong{ color:var(--red); }
 
     /* Footer */
-    .footer {
-        text-align: center;
-        padding: 30px;
-        border-top: 2px solid #ff0000;
-        color: #888888;
-        font-size: 14px;
+    .footer{
+      margin-top:20px;
+      text-align:center;
+      padding:22px 16px;
+      border-top:2px solid var(--border);
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.6;
     }
-
-    .footer-statement {
-        font-size: 18px;
-        color: #ff0000;
-        margin-bottom: 20px;
-        font-weight: bold;
+    .footer .statement{
+      font-size:15px;
+      color:var(--red);
+      margin-bottom:10px;
+      font-weight:bold;
+      text-shadow:0 0 8px rgba(255,0,0,0.6);
     }
 
     /* Responsive */
-    @media (max-width: 768px) {
-        .header h1 {
-            font-size: 32px;
-        }
-        
-        .counter-value {
-            font-size: 48px;
-        }
-        
-        .counter-box {
-            min-width: 150px;
-            padding: 20px 30px;
-        }
+    @media (max-width:768px){
+      .header h1{ font-size:30px; }
+      .counter-value{ font-size:44px; }
+      .counter-box{ min-width:190px; padding:18px 20px; }
     }
-    </style>
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1>THE DEATH CLOCK</h1>
-            <div class="subtitle">CTMP Preventable Death Counter</div>
-            <div class="tagline">Air pollution + unsafe water deaths since CTMP became deployable</div>
-        </header>
+  <div class="container">
 
-        <!-- Main Death Clock -->
-        <div class="death-clock-section">
-            <div class="clock-title">PREVENTABLE DEATHS SINCE CTMP BECAME DEPLOYABLE</div>
-            <div class="clock-subtitle">August 24, 2025 - Present</div>
-            <div class="main-counter">
-                <div class="counter-box">
-                    <div class="counter-value" id="deathCounter">0</div>
-                    <div class="counter-label">DEATHS</div>
-                </div>
-            </div>
-            
-            <div class="global-stats">
-                <div class="global-stat-box">
-                    <div class="global-stat-number" id="todayDeaths">0</div>
-                    <div class="global-stat-label">Deaths Today</div>
-                </div>
-                <div class="global-stat-box">
-                    <div class="global-stat-number" id="thisYearDeaths">0</div>
-                    <div class="global-stat-label">Deaths This Year</div>
-                </div>
-                <div class="global-stat-box">
-                    <div class="global-stat-number">1,382</div>
-                    <div class="global-stat-label">Deaths Per Day</div>
-                </div>
-                <div class="global-stat-box">
-                    <div class="global-stat-number">58</div>
-                    <div class="global-stat-label">Deaths Per Hour</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Impact Statement -->
-        <div class="impact-section">
-            <h3>WHAT THIS MEANS</h3>
-            <div class="impact-text">
-                These are not hypothetical future deaths. These are people dying right now from air pollution and unsafe water.
-            </div>
-            <div class="impact-text">
-                Not because the planet lacks energy or water. Because we built an economy that profits from scarcity.
-            </div>
-            <div class="impact-subtext">
-                CTMP can prevent these deaths. The technology exists. The engineering is proven. The physics works.
-                <br><br>
-                Every person in this count died while the solution was ready for deployment.
-            </div>
-        </div>
-
-        <!-- Live Statistics -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3>AIR POLLUTION</h3>
-                <div class="stat-item">
-                    <span class="stat-label">Global deaths per year:</span>
-                    <span class="stat-value">~7 million</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Deaths per day:</span>
-                    <span class="stat-value">~19,178</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Primary causes:</span>
-                    <span class="stat-value">Fossil fuel combustion</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">CTMP solution:</span>
-                    <span class="stat-value">Zero-emission baseload power</span>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <h3>UNSAFE WATER</h3>
-                <div class="stat-item">
-                    <span class="stat-label">Global deaths per year:</span>
-                    <span class="stat-value">~1.4 million</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Deaths per day:</span>
-                    <span class="stat-value">~3,836</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Primary causes:</span>
-                    <span class="stat-value">Waterborne disease</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">CTMP solution:</span>
-                    <span class="stat-value">2B m³ free water per module</span>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <h3>CTMP MODULE CAPACITY</h3>
-                <div class="stat-item">
-                    <span class="stat-label">Power generation:</span>
-                    <span class="stat-value">300,000 MW</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">CO₂ avoided per module:</span>
-                    <span class="stat-value">1.5 billion tons/year</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Lives saved per module:</span>
-                    <span class="stat-value">~400,000/year</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Deployment status:</span>
-                    <span class="stat-value">Ready since Aug 24, 2025</span>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <h3>DELAY COSTS</h3>
-                <div class="stat-item">
-                    <span class="stat-label">1 day delay:</span>
-                    <span class="stat-value">1,382 deaths</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">1 month delay:</span>
-                    <span class="stat-value">42,282 deaths</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">1 year delay:</span>
-                    <span class="stat-value">504,130 deaths</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Days delayed:</span>
-                    <span class="stat-value" id="daysDelayed">0</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Real-time Log -->
-        <div class="log-section">
-            <h3>REAL-TIME MORTALITY LOG</h3>
-            <div class="log-container" id="logContainer"></div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <div class="footer-statement">
-                From this point on, delay is not confusion. It is consent.
-            </div>
-            <p>Data sources: WHO Global Health Estimates (2022), IPCC AR6 Health Impact Methodology, UNICEF/WHO Joint Monitoring Programme (2023), IQair Air Quality Data</p>
-            <p>Clock started: August 24, 2025 (CTMP technical readiness achieved)</p>
-            <p>CTMP: Living Proof That Scarcity Is A Choice</p>
-        </div>
+    <div class="header">
+      <h1>COST OF WAITING COUNTER</h1>
+      <div class="subtitle">A modeled estimate of preventable loss during avoidable delay</div>
+      <div class="tagline">
+        This page does not record individual deaths in real time. It is a time-based counter derived from a fixed start date and a configurable daily rate.
+      </div>
     </div>
 
-    <script>
-    // Configuration
-    const DEATHS_PER_DAY = 1382;
-    const DEATHS_PER_SECOND = DEATHS_PER_DAY / 86400; // ~0.016 deaths per second
-    const MS_PER_DEATH = 86400000 / DEATHS_PER_DAY;   // ~62,550 ms per death
+    <div class="settings">
+      <div class="left">
+        <div class="pill">Start date (UTC): <strong id="refDateText">2025-08-24</strong></div>
+        <div class="pill">Rate: <strong id="ratePerDayText">1,382</strong> per day</div>
+      </div>
+      <div class="right">
+        <div class="pill">Model type: <strong>Reference-date only</strong></div>
+        <div class="pill">Refresh behavior: <strong>No reset</strong></div>
+      </div>
+    </div>
 
-    // Reference date: August 24, 2025 (CTMP became deployable)
-    const REFERENCE_DATE = new Date('2025-08-24T00:00:00Z');
-    
-    // Start time for this page load
-    const pageLoadTime = Date.now();
+    <div class="counter-section">
+      <div class="clock-title">MODELED PREVENTABLE LOSS SINCE CTMP READINESS DATE</div>
+      <div class="clock-subtitle">
+        Reference: <span id="referenceLabel">August 24, 2025</span> to present (UTC basis)
+      </div>
 
-    // Location data for realistic death tracking
-    const locations = [
-        "New Delhi, India",
-        "Beijing, China",
-        "Jakarta, Indonesia",
-        "Lagos, Nigeria",
-        "Dhaka, Bangladesh",
-        "Cairo, Egypt",
-        "Manila, Philippines",
-        "Karachi, Pakistan",
-        "Mumbai, India",
-        "Shanghai, China",
-        "Kolkata, India",
-        "Bangkok, Thailand",
-        "Tehran, Iran",
-        "Ho Chi Minh City, Vietnam",
-        "Nairobi, Kenya"
-    ];
+      <div class="main-counter">
+        <div class="counter-box">
+          <div class="counter-value" id="totalCounter">0</div>
+          <div class="counter-label">TOTAL (MODELED)</div>
+        </div>
+      </div>
 
-    const causes = [
-        "respiratory disease from air pollution",
-        "cardiovascular disease from particulate matter",
-        "waterborne disease from contaminated water",
-        "diarrheal disease from unsafe water",
-        "lung cancer from fossil fuel emissions",
-        "cholera from unsafe water access",
-        "typhoid from contaminated water supply",
-        "pneumonia exacerbated by air pollution",
-        "stroke linked to air quality",
-        "asthma complications from pollutants"
-    ];
+      <div class="global-stats">
+        <div class="global-stat-box">
+          <div class="global-stat-number" id="todayCounter">0</div>
+          <div class="global-stat-label">Modeled Today (UTC)</div>
+        </div>
 
-    // Calculate base deaths since reference date
-    function getBaseDeaths() {
-        const now = Date.now();
-        const msSinceReference = now - REFERENCE_DATE.getTime();
-        const daysSinceReference = msSinceReference / 86400000;
-        return Math.floor(daysSinceReference * DEATHS_PER_DAY);
+        <div class="global-stat-box">
+          <div class="global-stat-number" id="yearCounter">0</div>
+          <div class="global-stat-label">Modeled This Year (UTC)</div>
+        </div>
+
+        <div class="global-stat-box">
+          <div class="global-stat-number" id="perHour">0</div>
+          <div class="global-stat-label">Per Hour (Derived)</div>
+        </div>
+
+        <div class="global-stat-box">
+          <div class="global-stat-number" id="daysDelayed">0</div>
+          <div class="global-stat-label">Days Since Reference</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-grid">
+
+      <div class="card">
+        <h3>WHAT THIS IS</h3>
+        <p>
+          A <span class="emph">modeled counter</span> that converts time elapsed since a fixed reference date into a running estimate using a configured daily rate.
+        </p>
+        <p>
+          If you refresh the page, the displayed value updates only because time has advanced. It does not restart from zero.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>WHAT THIS IS NOT</h3>
+        <p>
+          It is <span class="emph">not</span> a live mortality feed. It does not claim a specific person died at a specific moment. It does not generate fabricated locations or causes.
+        </p>
+        <p>
+          It is a clock that quantifies delay using a defined model, nothing more.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>MODEL ASSUMPTION</h3>
+        <p>
+          Daily rate used here: <span class="emph" id="rateInline">1,382</span> per day.
+          Derived: <span class="emph" id="perMinute">0</span> per minute and <span class="emph" id="msPerOne">0</span> ms per 1.
+        </p>
+        <p>
+          If you change the daily rate, all derived values update consistently.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>FRAMING</h3>
+        <p class="emph">
+          From this point on, delay is not confusion. It is consent.
+        </p>
+        <p>
+          This page is intended to communicate the cost of delay in clear arithmetic, without pretending to be a real-time death tracker.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <div class="statement">CTMP: Living proof that scarcity is a choice.</div>
+      <div>
+        Counter basis: fixed reference date + configured daily rate. This is a modeled estimate, not a real-time mortality registry.
+      </div>
+      <div>
+        Suggested sources to document separately (if you publish a rate): WHO Global Health Estimates; UNICEF/WHO Joint Monitoring Programme; peer-reviewed health impact methodology.
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    /***********************
+     * CONFIG (EDIT HERE)
+     ***********************/
+    const REFERENCE_DATE_UTC = '2025-08-24T00:00:00Z'; // fixed start date in UTC
+    const RATE_PER_DAY = 1382; // modeled preventable loss per day
+
+    /***********************
+     * DERIVED CONSTANTS
+     ***********************/
+    const MS_PER_DAY = 86400000;
+    const referenceDate = new Date(REFERENCE_DATE_UTC);
+
+    const ratePerHour = RATE_PER_DAY / 24;
+    const ratePerMinute = RATE_PER_DAY / 1440;
+    const msPerOne = MS_PER_DAY / RATE_PER_DAY;
+
+    function fmt(n) { return Math.floor(n).toLocaleString(); }
+
+    function utcStartOfToday(now) {
+      return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
     }
 
-    // Update main counter
-    function updateCounter() {
-        const baseDeaths = getBaseDeaths();
-        const msSincePageLoad = Date.now() - pageLoadTime;
-        const additionalDeaths = Math.floor(msSincePageLoad / MS_PER_DEATH);
-        const totalDeaths = baseDeaths + additionalDeaths;
-        
-        document.getElementById('deathCounter').textContent = totalDeaths.toLocaleString();
+    function utcStartOfYear(now) {
+      return new Date(Date.UTC(now.getUTCFullYear(), 0, 1));
     }
 
-    // Update today's deaths
-    function updateTodayDeaths() {
-        const now = new Date();
-        const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const msElapsedToday = now - startOfDay;
-        const deathsToday = Math.floor((msElapsedToday / 86400000) * DEATHS_PER_DAY);
-        document.getElementById('todayDeaths').textContent = deathsToday.toLocaleString();
+    function nonNegative(n) { return n < 0 ? 0 : n; }
+
+    function totalSinceReference(nowMs) {
+      const msSince = nowMs - referenceDate.getTime();
+      const daysSince = msSince / MS_PER_DAY;
+      return nonNegative(daysSince * RATE_PER_DAY);
     }
 
-    // Update this year's deaths
-    function updateThisYearDeaths() {
-        const now = new Date();
-        const startOfYear = new Date(now.getFullYear(), 0, 1);
-        const daysElapsed = (now - startOfYear) / 86400000;
-        const deathsThisYear = Math.floor(daysElapsed * DEATHS_PER_DAY);
-        document.getElementById('thisYearDeaths').textContent = deathsThisYear.toLocaleString();
+    function todayCount(now) {
+      const start = utcStartOfToday(now);
+      const ms = now.getTime() - start.getTime();
+      return nonNegative((ms / MS_PER_DAY) * RATE_PER_DAY);
     }
 
-    // Update days delayed
-    function updateDaysDelayed() {
-        const now = Date.now();
-        const msSinceReference = now - REFERENCE_DATE.getTime();
-        const daysDelayed = Math.floor(msSinceReference / 86400000);
-        document.getElementById('daysDelayed').textContent = daysDelayed.toLocaleString();
+    function yearCount(now) {
+      const start = utcStartOfYear(now);
+      const ms = now.getTime() - start.getTime();
+      return nonNegative((ms / MS_PER_DAY) * RATE_PER_DAY);
     }
 
-    // Add log entry
-    function addLogEntry() {
-        const logContainer = document.getElementById('logContainer');
-        const now = new Date();
-        const timeString = now.toLocaleTimeString('en-US', { hour12: false });
-        
-        const location = locations[Math.floor(Math.random() * locations.length)];
-        const cause = causes[Math.floor(Math.random() * causes.length)];
-        
-        const entry = document.createElement('div');
-        entry.className = 'log-entry';
-        entry.innerHTML = `
-            <span class="log-time">[${timeString}]</span>
-            <span class="log-message">Preventable death recorded | Location: ${location} | Cause: ${cause}</span>
-        `;
-        
-        logContainer.insertBefore(entry, logContainer.firstChild);
-        
-        // Keep only last 50 entries
-        while (logContainer.children.length > 50) {
-            logContainer.removeChild(logContainer.lastChild);
-        }
+    function daysSinceReference(nowMs) {
+      const msSince = nowMs - referenceDate.getTime();
+      return nonNegative(Math.floor(msSince / MS_PER_DAY));
     }
 
-    // Initialize
-    updateCounter();
-    updateTodayDeaths();
-    updateThisYearDeaths();
-    updateDaysDelayed();
-    addLogEntry();
+    function bootLabels() {
+      document.getElementById('refDateText').textContent = REFERENCE_DATE_UTC.slice(0,10);
+      document.getElementById('ratePerDayText').textContent = RATE_PER_DAY.toLocaleString();
 
-    // Update counter every 100ms for smooth counting
-    setInterval(updateCounter, 100);
+      const refPretty = referenceDate.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric', timeZone:'UTC' });
+      document.getElementById('referenceLabel').textContent = refPretty;
 
-    // Update today's deaths every second
-    setInterval(updateTodayDeaths, 1000);
+      document.getElementById('rateInline').textContent = RATE_PER_DAY.toLocaleString();
+      document.getElementById('perHour').textContent = fmt(ratePerHour);
+      document.getElementById('perMinute').textContent = (ratePerMinute).toFixed(3);
+      document.getElementById('msPerOne').textContent = Math.round(msPerOne).toLocaleString();
+    }
 
-    // Update this year's deaths every minute
-    setInterval(updateThisYearDeaths, 60000);
+    function tick() {
+      const now = new Date();
+      const nowMs = now.getTime();
 
-    // Update days delayed every hour
-    setInterval(updateDaysDelayed, 3600000);
+      document.getElementById('totalCounter').textContent = fmt(totalSinceReference(nowMs));
+      document.getElementById('todayCounter').textContent = fmt(todayCount(now));
+      document.getElementById('yearCounter').textContent = fmt(yearCount(now));
+      document.getElementById('daysDelayed').textContent = daysSinceReference(nowMs).toLocaleString();
+    }
 
-    // Add log entry at death rate intervals
-    setInterval(addLogEntry, MS_PER_DEATH);
-    </script>
+    bootLabels();
+    tick();
+
+    // Smooth enough without being wasteful
+    setInterval(tick, 250);
+  </script>
 </body>
 </html>
