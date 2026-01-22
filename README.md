@@ -61,7 +61,7 @@
       A <span class="emph">modeled counter</span> that converts time elapsed since a fixed reference date into a running estimate using a configured daily rate.
     </p>
     <p>
-      If you refresh the page, the displayed value updates only because time has advanced. It does not restart from zero.
+      If you refresh the page, the displayed value updates only because time has advanced. It doesn't restart from zero.
     </p>
   </div>
 
