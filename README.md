@@ -328,7 +328,7 @@
       <div class="sources">
         <div class="sources-title"><strong>Sources</strong></div>
         <ul>
-          <li>WHO Global Health Estimates (GHE): Mortality and global health estimates. <a href="https://www.who.int/data/gho/data/themes/mortality-and-global-health-estimates" target="_blank" rel="noopener">WHO</a></li>
+          <li>WHO Global Health Estimates (GHE): Mortality and Global Health Estimates. <a href="https://www.who.int/data/gho/data/themes/mortality-and-global-health-estimates" target="_blank" rel="noopener">WHO</a></li>
           <li>WHO GHE methods: Methods and data sources (technical methods PDF). <a href="https://cdn.who.int/media/docs/default-source/gho-documents/global-health-estimates/ghe2021_daly_methods.pdf" target="_blank" rel="noopener">WHO (PDF)</a></li>
           <li>WHO/UNICEF Joint Monitoring Programme (JMP): Global WASH data. <a href="https://washdata.org/" target="_blank" rel="noopener">JMP</a></li>
           <li>UN IGME: Levels and Trends in Child Mortality. <a href="https://data.unicef.org/resources/levels-and-trends-in-child-mortality-2024/" target="_blank" rel="noopener">UNICEF Data</a></li>
