@@ -8,413 +8,357 @@
   <style>
     :root{
       --bg:#000;
-      --panel:#0a0a0a;
-      --panel2:#120000;
-      --red:#ff0000;
-      --white:#ffffff;
-      --muted:#bbbbbb;
-      --muted2:#8a8a8a;
-      --border:#330000;
-      --shadow: 0 10px 30px rgba(0,0,0,0.5);
-      --radius: 16px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      --panel:#0b0b0b;
+      --panel2:#111;
+      --text:#fff;
+      --muted:#b6b6b6;
+      --line:#222;
+      --accent:#ff2a2a;
     }
 
-    html,body{height:100%}
+    *{box-sizing:border-box}
     body{
       margin:0;
-      background: radial-gradient(1200px 800px at 20% 0%, #120000 0%, #000 60%);
-      color:var(--white);
-      font-family:var(--sans);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      background: radial-gradient(1200px 600px at 50% -10%, #220000 0%, #000 60%);
+      color:var(--text);
     }
 
     .wrap{
-      max-width: 1050px;
+      max-width: 980px;
       margin: 0 auto;
-      padding: 22px 16px 40px;
+      padding: 28px 16px 40px;
     }
 
     .header{
-      background: linear-gradient(180deg, rgba(255,0,0,0.09), rgba(0,0,0,0.2));
-      border: 1px solid rgba(255,0,0,0.25);
-      border-radius: var(--radius);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
       padding: 18px 18px;
-      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,42,42,.08), rgba(0,0,0,0));
     }
-    .header h1{
-      margin:0 0 6px;
-      letter-spacing: 0.08em;
-      font-size: 20px;
-      font-family: var(--mono);
-      color: var(--white);
+
+    h1{
+      margin:0;
+      letter-spacing: 1px;
+      font-size: 22px;
     }
+
     .subtitle{
-      margin: 0 0 10px;
-      color: var(--muted);
+      color:var(--muted);
+      line-height: 1.35;
       font-size: 14px;
     }
-    .tagline{
-      margin:0;
-      color: var(--muted2);
-      font-size: 13px;
-      line-height: 1.35;
-    }
 
-    .settings{
-      margin-top: 14px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:space-between;
+    .keyline{
+      margin-top:6px;
+      font-size: 15px;
+      line-height: 1.45;
     }
-    .left,.right{display:flex; gap:10px; flex-wrap:wrap}
-    .pill{
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,0,0,0.18);
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-    .pill strong{color: var(--white); font-weight: 700;}
+    .keyline strong{ color:#fff; }
+    .keyline .accent{ color:var(--accent); font-weight:700; }
 
-    .counter-section{
-      margin-top: 16px;
-      background: linear-gradient(180deg, rgba(255,0,0,0.06), rgba(0,0,0,0.25));
-      border: 1px solid rgba(255,0,0,0.22);
-      border-radius: var(--radius);
-      padding: 16px;
-      box-shadow: var(--shadow);
-    }
-
-    .clock-title{
-      font-family: var(--mono);
-      letter-spacing: 0.08em;
-      color: var(--white);
-      font-size: 12px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-    .clock-subtitle{
-      color: var(--muted2);
-      font-size: 13px;
-      margin-bottom: 14px;
-    }
-
-    .main-counter{
-      display:flex;
-      justify-content:center;
-      margin: 10px 0 12px;
-    }
-    .counter-box{
-      width: min(680px, 100%);
-      background: rgba(0,0,0,0.35);
-      border: 1px solid rgba(255,0,0,0.28);
-      border-radius: var(--radius);
-      padding: 16px 14px;
-      text-align:center;
-    }
-    .counter-value{
-      font-family: var(--mono);
-      font-size: clamp(34px, 6vw, 64px);
-      color: var(--red);
-      font-weight: 800;
-      letter-spacing: 0.02em;
-      line-height: 1.05;
-    }
-    .counter-label{
-      margin-top: 6px;
-      font-family: var(--mono);
-      color: var(--muted2);
-      font-size: 12px;
-      letter-spacing: 0.08em;
-    }
-
-    .global-stats{
+    .grid{
       display:grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: 1.6fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 820px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .big{
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(11,11,11,.78);
+      padding: 18px;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .big .label{
+      color:var(--muted);
+      font-size: 13px;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+
+    .big .value{
+      margin-top: 10px;
+      font-size: clamp(44px, 6vw, 68px);
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .metaRow{
+      margin-top: 12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      color:var(--muted);
+      font-size: 13px;
+    }
+
+    .pill{
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: rgba(17,17,17,.7);
+    }
+    .pill strong{ color:#fff; font-weight:700; }
+
+    .side{
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(11,11,11,.78);
+      padding: 14px;
+      display:grid;
       gap: 10px;
     }
-    @media (max-width: 860px){
-      .global-stats{grid-template-columns: repeat(2, minmax(0, 1fr));}
-    }
-    .global-stat-box{
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,0,0,0.16);
+
+    .stat{
+      border: 1px solid var(--line);
       border-radius: 14px;
-      padding: 12px 12px;
-    }
-    .global-stat-number{
-      font-family: var(--mono);
-      font-size: 20px;
-      color: var(--white);
-      font-weight: 700;
-    }
-    .global-stat-label{
-      margin-top: 4px;
-      color: var(--muted2);
-      font-size: 12px;
+      padding: 12px;
+      background: rgba(17,17,17,.65);
     }
 
-    .info-grid{
-      margin-top: 16px;
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+    .stat .num{
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.1;
     }
-    @media (max-width: 860px){
-      .info-grid{grid-template-columns: 1fr;}
+
+    .stat .name{
+      margin-top: 6px;
+      color:var(--muted);
+      font-size: 12px;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 820px){
+      .cards{ grid-template-columns: 1fr; }
     }
 
     .card{
-      background: rgba(0,0,0,0.28);
-      border: 1px solid rgba(255,0,0,0.16);
-      border-radius: var(--radius);
-      padding: 14px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 14px;
+      background: rgba(11,11,11,.78);
     }
+
     .card h3{
-      margin: 0 0 8px;
-      font-family: var(--mono);
-      letter-spacing: 0.08em;
-      font-size: 12px;
+      margin:0 0 8px 0;
+      font-size: 14px;
+      letter-spacing: .6px;
       text-transform: uppercase;
-      color: var(--white);
     }
+
     .card p{
-      margin: 0 0 10px;
+      margin: 0 0 8px 0;
       color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
+      line-height: 1.5;
+      font-size: 14px;
     }
-    .card p:last-child{margin-bottom:0;}
-    .emph{color: var(--white); font-weight: 700;}
+
+    .card p:last-child{ margin-bottom:0; }
 
     .footer{
       margin-top: 16px;
-      border-top: 1px solid rgba(255,0,0,0.18);
-      padding-top: 14px;
-      color: var(--muted2);
-      font-size: 12px;
-      line-height: 1.45;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      background: rgba(11,11,11,.78);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
     }
-    .statement{
-      font-family: var(--mono);
-      color: var(--white);
-      margin-bottom: 6px;
+
+    .footer .sources-title{
+      color:#fff;
+      font-weight:700;
+      margin-bottom: 8px;
     }
-    .sources{
-      margin-top: 10px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,0,0,0.14);
-      border-radius: 14px;
-      padding: 10px 12px;
+
+    .footer ul{
+      margin: 8px 0 0 18px;
+      padding: 0;
     }
-    .sources-title{margin-bottom: 6px; color: var(--white); font-family: var(--mono);}
-    .sources ul{margin: 0; padding-left: 18px;}
-    .sources li{margin: 6px 0;}
-    .sources a{color: #ff6666; text-decoration: none;}
-    .sources a:hover{text-decoration: underline;}
+    .footer a{
+      color:#fff;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
   </style>
 </head>
 
 <body>
   <div class="wrap">
+
     <div class="header">
       <h1>COST OF WAITING COUNTER</h1>
-      <div class="subtitle">A modeled estimate of delay cost using a fixed start date and a stated daily rate</div>
-      <div class="tagline">
-        This page does not report real-time events or identify individuals. It displays a time-based estimate derived from a fixed start date and a stated daily rate.
+      <div class="subtitle">
+        A simple model that turns delay into a number you can see.
+      </div>
+
+      <div class="keyline">
+        <strong>How it works:</strong> time since <span class="accent" id="refHuman">August 24, 2025</span>
+        multiplied by a stated rate of <span class="accent" id="rateHuman">1,382 per day</span>.
+        <br />
+        This is an estimate. It is not a live registry of real-time events.
       </div>
     </div>
 
-    <div class="settings">
-      <div class="left">
-        <div class="pill">Start date (UTC): <strong id="refDateText">2025-08-24</strong></div>
-        <div class="pill">Rate: <strong id="ratePerDayText">1,382</strong> per day</div>
-      </div>
-      <div class="right">
-        <div class="pill">Model type: <strong>Reference-date only</strong></div>
-        <div class="pill">Refresh behavior: <strong>No reset</strong></div>
-      </div>
-    </div>
+    <div class="grid">
+      <div class="big">
+        <div class="label">Total since reference date (modeled)</div>
+        <div class="value" id="totalCounter">0</div>
 
-    <div class="counter-section">
-      <div class="clock-title">MODELED DELAY COST SINCE CTMP READINESS DATE</div>
-      <div class="clock-subtitle">
-        Reference: <span id="referenceLabel">August 24, 2025</span> to present (UTC basis)
-      </div>
-
-      <div class="main-counter">
-        <div class="counter-box">
-          <div class="counter-value" id="totalCounter">0</div>
-          <div class="counter-label">TOTAL (MODELED)</div>
+        <div class="metaRow">
+          <div class="pill">Start (UTC): <strong id="refDateText">2025-08-24</strong></div>
+          <div class="pill">Rate: <strong id="ratePerDayText">1,382</strong> per day</div>
+          <div class="pill">Per hour (derived): <strong id="perHourText">0</strong></div>
         </div>
       </div>
 
-      <div class="global-stats">
-        <div class="global-stat-box">
-          <div class="global-stat-number" id="todayCounter">0</div>
-          <div class="global-stat-label">Modeled Today (UTC)</div>
+      <div class="side">
+        <div class="stat">
+          <div class="num" id="todayCounter">0</div>
+          <div class="name">Modeled today (UTC)</div>
         </div>
-
-        <div class="global-stat-box">
-          <div class="global-stat-number" id="yearCounter">0</div>
-          <div class="global-stat-label">Modeled This Year (UTC)</div>
+        <div class="stat">
+          <div class="num" id="yearCounter">0</div>
+          <div class="name">Modeled this year (UTC)</div>
         </div>
-
-        <div class="global-stat-box">
-          <div class="global-stat-number" id="perHour">0</div>
-          <div class="global-stat-label">Per Hour (Derived)</div>
-        </div>
-
-        <div class="global-stat-box">
-          <div class="global-stat-number" id="daysDelayed">0</div>
-          <div class="global-stat-label">Days Since Reference</div>
+        <div class="stat">
+          <div class="num" id="daysDelayed">0</div>
+          <div class="name">Days since reference</div>
         </div>
       </div>
     </div>
 
-    <div class="info-grid">
+    <div class="cards">
       <div class="card">
-        <h3>WHAT THIS IS</h3>
+        <h3>What this is</h3>
         <p>
-          A <span class="emph">modeled counter</span> that converts time elapsed since a fixed reference date into a running estimate using a stated daily rate.
+          A clock that shows a running estimate based on elapsed time.
         </p>
         <p>
-          Refreshing the page does not restart anything. The value changes only because time has moved forward.
+          Refreshing the page does not reset it. Time keeps moving, so the number keeps moving.
         </p>
       </div>
 
       <div class="card">
-        <h3>WHAT THIS IS NOT</h3>
+        <h3>What this is not</h3>
         <p>
-          It is <span class="emph">not</span> a live feed of incidents or outcomes. It does not report real-time events. It does not identify individuals.
+          Not a live feed. Not real-time reporting. Not individual records.
         </p>
         <p>
-          It is simple arithmetic: <span class="emph">elapsed time × stated rate</span>.
-        </p>
-      </div>
-
-      <div class="card">
-        <h3>MODEL ASSUMPTION</h3>
-        <p>
-          Daily rate used here: <span class="emph" id="rateInline">1,382</span> per day.
-          Derived: <span class="emph" id="perMinute">0</span> per minute and <span class="emph" id="msPerOne">0</span> ms per 1.
-        </p>
-        <p>
-          If the daily rate changes, all derived values update consistently.
+          Just a model: elapsed time multiplied by a stated rate.
         </p>
       </div>
 
       <div class="card">
-        <h3>FRAMING</h3>
-        <p class="emph">From this point on, delay is not confusion. It is consent.</p>
+        <h3>The rate</h3>
         <p>
-          This page communicates the cost of delay in plain arithmetic, without presenting itself as a live registry.
+          The daily rate is a published assumption.
+          If you change it, every number updates automatically.
+        </p>
+        <p>
+          The point is clarity: people can see what delay costs under the stated assumption.
         </p>
       </div>
     </div>
 
     <div class="footer">
-      <div class="statement">CTMP: Living proof that scarcity is a choice.</div>
+      <div class="sources-title">Sources (for documenting the underlying rate)</div>
       <div>
-        Counter basis: fixed reference date + stated daily rate. This is a modeled estimate, not a real-time registry.
+        Use these to justify whatever daily rate you choose to publish, and to document methods transparently.
       </div>
-
-      <div class="sources">
-        <div class="sources-title"><strong>Sources</strong></div>
-        <ul>
-          <li>WHO Global Health Estimates (GHE): Mortality and Global Health Estimates. <a href="https://www.who.int/data/gho/data/themes/mortality-and-global-health-estimates" target="_blank" rel="noopener">WHO</a></li>
-          <li>WHO GHE methods: Methods and data sources (technical methods PDF). <a href="https://cdn.who.int/media/docs/default-source/gho-documents/global-health-estimates/ghe2021_daly_methods.pdf" target="_blank" rel="noopener">WHO (PDF)</a></li>
-          <li>WHO/UNICEF Joint Monitoring Programme (JMP): Global WASH data. <a href="https://washdata.org/" target="_blank" rel="noopener">JMP</a></li>
-          <li>UN IGME: Levels and Trends in Child Mortality. <a href="https://data.unicef.org/resources/levels-and-trends-in-child-mortality-2024/" target="_blank" rel="noopener">UNICEF Data</a></li>
-          <li>GATHER Statement (2016): Reporting guideline for health estimates. <a href="https://www.healthdata.org/sites/default/files/files/GATHER-statement_2016.pdf" target="_blank" rel="noopener">GATHER (PDF)</a></li>
-        </ul>
-      </div>
+      <ul>
+        <li>WHO Global Health Estimates (GHE): Mortality and global health estimates. <a href="https://www.who.int/data/gho/data/themes/mortality-and-global-health-estimates" target="_blank" rel="noopener">WHO</a></li>
+        <li>WHO GHE methods (technical): “Methods and data sources for global burden of disease estimates 2000–2021”. <a href="https://cdn.who.int/media/docs/default-source/gho-documents/global-health-estimates/ghe2021_daly_methods.pdf" target="_blank" rel="noopener">WHO (PDF)</a></li>
+        <li>WHO/UNICEF Joint Monitoring Programme (JMP): Global WASH data. <a href="https://washdata.org/" target="_blank" rel="noopener">JMP</a></li>
+        <li>UN IGME: Levels and Trends in Child Mortality report page. <a href="https://data.unicef.org/resources/levels-and-trends-in-child-mortality-2024/" target="_blank" rel="noopener">UNICEF Data</a></li>
+        <li>GATHER Statement (2016): Reporting standard for health estimates transparency. <a href="https://www.healthdata.org/sites/default/files/files/GATHER-statement_2016.pdf" target="_blank" rel="noopener">GATHER (PDF)</a></li>
+      </ul>
     </div>
+
   </div>
 
   <script>
-    // ---------------------------
-    // CONFIG (edit only these)
-    // ---------------------------
-    const REF_DATE_UTC = "2025-08-24T00:00:00Z"; // fixed start date (UTC)
-    const RATE_PER_DAY = 1382;                  // stated daily rate (number)
+    // --------- CONFIG (simple, visible, editable) ----------
+    const REF_DATE_UTC = "2025-08-24T00:00:00Z";
+    const RATE_PER_DAY = 1382;
 
-    // ---------------------------
-    // Helpers
-    // ---------------------------
-    const fmtInt = new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 });
-    const MS_PER_DAY = 24 * 60 * 60 * 1000;
+    // --------- HELPERS ----------
+    const nf0 = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+    const nf2 = new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-    function el(id){
-      const node = document.getElementById(id);
-      if(!node) throw new Error("Missing element id: " + id);
-      return node;
+    function $(id){ return document.getElementById(id); }
+
+    function startOfUtcDay(d){
+      return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 0,0,0,0));
+    }
+    function startOfUtcYear(d){
+      return new Date(Date.UTC(d.getUTCFullYear(), 0, 1, 0,0,0,0));
     }
 
-    function setText(id, value){
-      el(id).textContent = value;
+    function toHumanDate(iso){
+      const d = new Date(iso);
+      const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+      return months[d.getUTCMonth()] + " " + d.getUTCDate() + ", " + d.getUTCFullYear();
     }
 
-    function startOfUtcDay(ts){
-      const d = new Date(ts);
-      return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 0, 0, 0, 0);
-    }
+    // --------- INIT STATIC TEXT ----------
+    $("refDateText").textContent = REF_DATE_UTC.slice(0,10);
+    $("ratePerDayText").textContent = nf0.format(RATE_PER_DAY);
+    $("refHuman").textContent = toHumanDate(REF_DATE_UTC);
+    $("rateHuman").textContent = nf0.format(RATE_PER_DAY) + " per day";
+    $("perHourText").textContent = nf2.format(RATE_PER_DAY / 24);
 
-    function startOfUtcYear(ts){
-      const d = new Date(ts);
-      return Date.UTC(d.getUTCFullYear(), 0, 1, 0, 0, 0, 0);
-    }
-
-    // ---------------------------
-    // Init visible config fields
-    // ---------------------------
-    const ref = new Date(REF_DATE_UTC);
-    if (Number.isNaN(ref.getTime())) throw new Error("Bad REF_DATE_UTC: " + REF_DATE_UTC);
-    if (!Number.isFinite(RATE_PER_DAY) || RATE_PER_DAY <= 0) throw new Error("Bad RATE_PER_DAY: " + RATE_PER_DAY);
-
-    setText("refDateText", "2025-08-24");
-    setText("ratePerDayText", fmtInt.format(RATE_PER_DAY));
-    setText("rateInline", fmtInt.format(RATE_PER_DAY));
-
-    const perMinute = RATE_PER_DAY / 1440;
-    const msPerOne = (MS_PER_DAY / RATE_PER_DAY);
-
-    setText("perMinute", perMinute.toFixed(3));
-    setText("msPerOne", fmtInt.format(Math.round(msPerOne)));
-
-    // ---------------------------
-    // Main update loop
-    // ---------------------------
+    // --------- UPDATE LOOP ----------
     function update(){
-      const now = Date.now();
+      const now = new Date();
+      const ref = new Date(REF_DATE_UTC);
 
-      const elapsedMs = now - ref.getTime();
-      const elapsedDays = Math.max(0, elapsedMs / MS_PER_DAY);
+      const elapsedMs = Math.max(0, now.getTime() - ref.getTime());
+      const elapsedDays = elapsedMs / 86400000;
 
       const total = elapsedDays * RATE_PER_DAY;
 
-      const todayStart = startOfUtcDay(now);
-      const todayMs = now - todayStart;
-      const today = Math.max(0, (todayMs / MS_PER_DAY) * RATE_PER_DAY);
+      // Today (UTC)
+      const dayStart = startOfUtcDay(now);
+      const todayMs = Math.max(0, now.getTime() - dayStart.getTime());
+      const today = (todayMs / 86400000) * RATE_PER_DAY;
 
+      // This year (UTC)
       const yearStart = startOfUtcYear(now);
-      const yearMs = now - yearStart;
-      const year = Math.max(0, (yearMs / MS_PER_DAY) * RATE_PER_DAY);
+      const yearMs = Math.max(0, now.getTime() - yearStart.getTime());
+      const year = (yearMs / 86400000) * RATE_PER_DAY;
 
-      setText("totalCounter", fmtInt.format(Math.floor(total)));
-      setText("todayCounter", fmtInt.format(Math.floor(today)));
-      setText("yearCounter", fmtInt.format(Math.floor(year)));
-      setText("perHour", fmtInt.format(Math.round(RATE_PER_DAY / 24)));
-      setText("daysDelayed", fmtInt.format(Math.floor(elapsedDays)));
+      // Days since reference
+      const days = Math.floor(elapsedDays);
+
+      $("totalCounter").textContent = nf0.format(Math.floor(total));
+      $("todayCounter").textContent = nf0.format(Math.floor(today));
+      $("yearCounter").textContent = nf0.format(Math.floor(year));
+      $("daysDelayed").textContent = nf0.format(days);
     }
 
-    // Run once immediately, then smoothly.
     update();
     setInterval(update, 250);
   </script>
